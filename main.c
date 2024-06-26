@@ -14,7 +14,7 @@ void print(struct node* head){
 
 void print_back(struct node** head){
     if((*head)->prev == NULL){
-	printf("%d is last number", (*head)->num);
+	printf("%d is last number\n", (*head)->num);
     }
     else{
 	*head = (*head)->prev;
@@ -45,6 +45,19 @@ void insert(struct node** head, int num){
     *head = temp;
 }
 
+void insert_Nth(struct node* head, int num, int n_th){
+    struct node* new_node = (struct node*)malloc(sizeof(struct node*));
+    new_node->num = num;
+    for(int i = 0; i < n_th - 1; i++){
+	head = head->next;
+    }
+    new_node->prev = head;
+    new_node->next = head->next;
+    head->next = new_node;
+    head = new_node->next;
+    head->prev = new_node;
+}
+
 int main(){
     struct node* head = NULL;
 
@@ -61,8 +74,10 @@ int main(){
 	insert(&head, num);
     }
 
-    while(!done){
-	printf("choose num\n\n\n1.\tprint currnt.\n2.\tprint previous number.\n3\t.quit.\n4.\tprint next\n\n");
+    insert_Nth(head, 11, 3);
+
+   while(!done){
+	printf("choose num\n\n\n1.\tprint currnt.\n2.\tprint previous number.\n3\tprint next.\n4.\tquit.\n\n");
 	scanf("%d", &choice);
 	switch(choice){
 	    case 1:
@@ -71,10 +86,10 @@ int main(){
 	    case 2:
 		print_back(&head);
 		break;
-	    case 3:
+	    case 4:
 		done = true;
 		break;
-	    case 4:
+	    case 3:
 		print_next(&head);
 		break;
 	    default:
